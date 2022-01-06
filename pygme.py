@@ -3,8 +3,6 @@ import win32api
 import win32con
 import win32gui
 import ch
-import tkinter as tk
-import multiprocessing
 import time
 import html
 
