@@ -5,7 +5,7 @@ import win32gui
 import ch
 import time
 import html
-
+from ctypes import windll
 
 class Message:
     def __init__(self, msg_username, message, name_color, msg_color):
@@ -115,16 +115,17 @@ class bot(ch.RoomManager):
 
     # every bot tick update the GUI
     def _tick(self):
-        now = time.time()
-        for task in set(self._tasks):
-            if task.target <= now:
-                task.func(*task.args, **task.kw)
-                if task.isInterval:
-                    task.target = now + task.timeout
-                else:
-                    self._tasks.remove(task)
-        pygame.display.update()
-        pygame.event.get()
+     pygame.event.get()
+     x,y = win32gui.GetCursorPos()
+     x2 = int(x-overlay_width/2)
+     y2 = int(y-overlay_height/2)
+     b = win32gui.GetWindowRect(hwnd)
+     if win32api.GetKeyState(0x01) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
+         win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, x2, y2, overlay_height, overlay_width, win32con.SWP_NOSIZE)
+    pygame.display.update()
+
+
+
 
     @staticmethod
     def convert_chatango_colors(color):
@@ -142,8 +143,6 @@ class bot(ch.RoomManager):
         if colorR == 0 and colorG == 0 and colorB == 0:
             return 255, 255, 255
         return colorR, colorG, colorB
-
-
 rooms = ["testingvtbot"]
 username = "botstero"
 password = "123qwe"
