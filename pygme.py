@@ -142,7 +142,7 @@ class bot(ch.RoomManager):
         if colorR == 0 and colorG == 0 and colorB == 0:
             return 255, 255, 255
         return colorR, colorG, colorB
-rooms = ["fontsizeparam"]
+rooms = ["vidyatendency"]
 username = "botstero"
 password = "123qwe"
 bot.easy_start(rooms, username, password)
