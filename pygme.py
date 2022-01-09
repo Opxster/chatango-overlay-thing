@@ -72,7 +72,7 @@ class bot(ch.RoomManager):
         )
 
         screen.fill(fuchsia)
-        x = 0
+        lineNumber = 0
         messageIndex = 0
         # draw everything in chat table
         while messageIndex < len(chatstore):
@@ -84,9 +84,9 @@ class bot(ch.RoomManager):
             leftover_message = current_message.message
             messageBounds = pygame.Rect(
                 name_surface.get_width(),
-                font_size * x,
+                font_size * lineNumber,
                 overlay_width - name_surface.get_width(),
-                overlay_height - font_size * x,
+                overlay_height - font_size * lineNumber,
             )
             i = 1
             y = messageBounds.top
@@ -106,7 +106,7 @@ class bot(ch.RoomManager):
                 y += font_size + lineSpacing
 
                 leftover_message = leftover_message[i:]
-                x = x + 1
+                lineNumber = lineNumber + 1
 
             pygame.display.update()
 
