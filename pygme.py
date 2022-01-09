@@ -93,11 +93,13 @@ class bot(ch.RoomManager):
             while leftover_message:
                 while myfont.size(leftover_message[:i])[0] < messageBounds.width and i < len(leftover_message):
                     i += 1
+                    
 
                 # if we've wrapped the text, then adjust the wrap to the last word
                 if i < len(leftover_message):
                     i = leftover_message.rfind(" ", 0, i) + 1
-
+                if i == 0:
+                 i = len(leftover_message)                 
                 image = myfont.render(leftover_message[:i], False, shadow_color)
                 screen.blit(image, (messageBounds.left + shadow_x_offset, y + shadow_y_offset))
                 image = myfont.render(leftover_message[:i], False, message_color)
@@ -142,7 +144,7 @@ class bot(ch.RoomManager):
         return colorR, colorG, colorB
 
 
-rooms = ["vidyatendency"]
+rooms = ["testingvtbot"]
 username = "botstero"
 password = "123qwe"
 bot.easy_start(rooms, username, password)
