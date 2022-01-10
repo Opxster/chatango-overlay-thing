@@ -76,6 +76,9 @@ class bot(ch.RoomManager):
         # draw everything in chat table
         while messageIndex < len(chatstore):
             current_message = chatstore[messageIndex]
+
+            name_surface = myfont.render(current_message.username + ": ", False, (0, 255, 0))
+            screen.blit(name_surface, (0, font_size * lineNumber))
             name_surface = myfont.render(current_message.username + ": ", False, current_message.nameColor)
             screen.blit(name_surface, (0, font_size * messageIndex))
 
@@ -88,17 +91,16 @@ class bot(ch.RoomManager):
             )
             i = 1
             y = messageBounds.top
-            lineSpacing = -2
+            lineSpacing = 0
             while leftover_message:
                 while myfont.size(leftover_message[:i])[0] < messageBounds.width and i < len(leftover_message):
                     i += 1
-                    
 
                 # if we've wrapped the text, then adjust the wrap to the last word
                 if i < len(leftover_message):
                     i = leftover_message.rfind(" ", 0, i) + 1
                 if i == 0:
-                 i = len(leftover_message)                 
+                    i = len(leftover_message)
                 image = myfont.render(leftover_message[:i], False, shadow_color)
                 screen.blit(image, (messageBounds.left + shadow_x_offset, y + shadow_y_offset))
                 image = myfont.render(leftover_message[:i], False, current_message.msgColor)
@@ -114,14 +116,14 @@ class bot(ch.RoomManager):
 
     # every bot tick update the GUI
     def _tick(self):
-     pygame.event.get()
-     x,y = win32gui.GetCursorPos()
-     x2 = int(x-overlay_width/2)
-     y2 = int(y-overlay_height/2)
-     b = win32gui.GetWindowRect(hwnd)
-     if win32api.GetKeyState(0x01) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
-         win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, x2, y2, overlay_height, overlay_width, win32con.SWP_NOSIZE)
-    pygame.display.update()
+         pygame.event.get()
+         x,y = win32gui.GetCursorPos()
+         x2 = int(x-overlay_width/2)
+         y2 = int(y-overlay_height/2)
+         b = win32gui.GetWindowRect(hwnd)
+         if win32api.GetKeyState(0x01) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
+             win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, x2, y2, overlay_height, overlay_width, win32con.SWP_NOSIZE)
+        pygame.display.update()
 
 
 
