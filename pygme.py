@@ -132,8 +132,8 @@ class bot(ch.RoomManager):
              pygame.quit()
     def onDisconnect(self, room):
      print("bot disconnected")
-     
-    
+     bot.stop(self)
+     bot.easy_start(rooms, username, password)
 
     @staticmethod
     def convert_chatango_colors(color):
