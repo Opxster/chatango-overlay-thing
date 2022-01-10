@@ -32,7 +32,6 @@ chatstore = [
     Message("t", "4", (0, 255, 0), (0, 255, 0))
 ]
 chatcount = 0  # message counter
-message_color = (255, 255, 255)
 shadow_color = (128, 128, 128)
 shadow_y_offset = 2
 shadow_x_offset = 1
@@ -68,7 +67,7 @@ class bot(ch.RoomManager):
             html.unescape(user.name.title()),
             html.unescape(message.body),
             self.convert_chatango_colors(message.nameColor),
-            message_color
+            self.convert_chatango_colors(message.fontColor)
         )
 
         screen.fill(fuchsia)
@@ -77,7 +76,7 @@ class bot(ch.RoomManager):
         # draw everything in chat table
         while messageIndex < len(chatstore):
             current_message = chatstore[messageIndex]
-            name_surface = myfont.render(current_message.username + ": ", False, (0, 255, 0))
+            name_surface = myfont.render(current_message.username + ": ", False, current_message.nameColor)
             screen.blit(name_surface, (0, font_size * messageIndex))
 
             leftover_message = current_message.message
@@ -102,7 +101,7 @@ class bot(ch.RoomManager):
                  i = len(leftover_message)                 
                 image = myfont.render(leftover_message[:i], False, shadow_color)
                 screen.blit(image, (messageBounds.left + shadow_x_offset, y + shadow_y_offset))
-                image = myfont.render(leftover_message[:i], False, message_color)
+                image = myfont.render(leftover_message[:i], False, current_message.msgColor)
                 screen.blit(image, (messageBounds.left, y))
                 y += font_size + lineSpacing
 
@@ -143,7 +142,7 @@ class bot(ch.RoomManager):
         if colorR == 0 and colorG == 0 and colorB == 0:
             return 255, 255, 255
         return colorR, colorG, colorB
-rooms = ["testingvtbot"]
+rooms = ["vidyatendency"]
 username = "botstero"
 password = "123qwe"
 bot.easy_start(rooms, username, password)
