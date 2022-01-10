@@ -130,8 +130,10 @@ class bot(ch.RoomManager):
          if win32api.GetKeyState(0x1B) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
              bot.stop(self)
              pygame.quit()
+    def onDisconnect(self, room):
+     print("bot disconnected")
+     
     
-
 
     @staticmethod
     def convert_chatango_colors(color):
