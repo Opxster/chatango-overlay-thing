@@ -24,6 +24,8 @@ myfont = pygame.font.SysFont('Arial Bold', font_size)
 pygame.display.set_caption('ghetto ass overlay')
 global chatcount
 global chatstore
+global ESC
+ESC = False
 
 chatstore = [
     Message("test", "1", (0, 255, 0), (0, 255, 0)),
@@ -128,12 +130,15 @@ class bot(ch.RoomManager):
              win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, x2, y2, overlay_height, overlay_width, win32con.SWP_NOSIZE)
          pygame.display.update()
          if win32api.GetKeyState(0x1B) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
+             global ESC
+             ESC = True
              bot.stop(self)
              pygame.quit()
     def onDisconnect(self, room):
      print("bot disconnected")
-     bot.stop(self)
-     bot.easy_start(rooms, username, password)
+     if ESC == False:
+      bot.stop(self)
+      bot.easy_start(rooms, username, password)
 
     @staticmethod
     def convert_chatango_colors(color):
