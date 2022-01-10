@@ -37,7 +37,7 @@ shadow_y_offset = 2
 shadow_x_offset = 1
 font_size = 50
 
-screen = pygame.display.set_mode((overlay_width, overlay_height))  # For borderless, use pygame.NOFRAME
+screen = pygame.display.set_mode((overlay_width, overlay_height),pygame.NOFRAME)  
 
 done = False
 fuchsia = (255, 0, 128)  # Transparency color
@@ -77,10 +77,13 @@ class bot(ch.RoomManager):
         while messageIndex < len(chatstore):
             current_message = chatstore[messageIndex]
 
-            name_surface = myfont.render(current_message.username + ": ", False, (0, 255, 0))
+            name_surface = myfont.render(current_message.username + ": ", False, shadow_color)
+            screen.blit(name_surface, (shadow_x_offset, font_size * lineNumber+shadow_y_offset))
+            name_surface = myfont.render(current_message.username + ": ", False, current_message.nameColor)
             screen.blit(name_surface, (0, font_size * lineNumber))
             name_surface = myfont.render(current_message.username + ": ", False, current_message.nameColor)
             screen.blit(name_surface, (0, font_size * messageIndex))
+            
 
             leftover_message = current_message.message
             messageBounds = pygame.Rect(
@@ -123,9 +126,11 @@ class bot(ch.RoomManager):
          b = win32gui.GetWindowRect(hwnd)
          if win32api.GetKeyState(0x01) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
              win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, x2, y2, overlay_height, overlay_width, win32con.SWP_NOSIZE)
-        pygame.display.update()
-
-
+         pygame.display.update()
+         if win32api.GetKeyState(0x1B) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
+             bot.stop(self)
+             pygame.quit()
+    
 
 
     @staticmethod
@@ -144,7 +149,11 @@ class bot(ch.RoomManager):
         if colorR == 0 and colorG == 0 and colorB == 0:
             return 255, 255, 255
         return colorR, colorG, colorB
-rooms = ["vidyatendency"]
+
+pygame.draw.rect(screen, (0,0,255), (0,0,overlay_width,overlay_height), 0)
+pygame.draw.rect(screen, fuchsia, (2,2,overlay_width-4,overlay_height-4), 0)
+
+rooms = ["testingvtbot"]
 username = "botstero"
 password = "123qwe"
 bot.easy_start(rooms, username, password)
