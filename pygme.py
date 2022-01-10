@@ -81,8 +81,8 @@ class bot(ch.RoomManager):
             screen.blit(name_surface, (shadow_x_offset, font_size * lineNumber+shadow_y_offset))
             name_surface = myfont.render(current_message.username + ": ", False, current_message.nameColor)
             screen.blit(name_surface, (0, font_size * lineNumber))
-            name_surface = myfont.render(current_message.username + ": ", False, current_message.nameColor)
-            screen.blit(name_surface, (0, font_size * messageIndex))
+            #name_surface = myfont.render(current_message.username + ": ", False, current_message.nameColor)
+            #screen.blit(name_surface, (0, font_size * messageIndex))
             
 
             leftover_message = current_message.message
@@ -153,7 +153,7 @@ class bot(ch.RoomManager):
 pygame.draw.rect(screen, (0,0,255), (0,0,overlay_width,overlay_height), 0)
 pygame.draw.rect(screen, fuchsia, (2,2,overlay_width-4,overlay_height-4), 0)
 
-rooms = ["testingvtbot"]
+rooms = ["vidyatendency"]
 username = "botstero"
 password = "123qwe"
 bot.easy_start(rooms, username, password)
