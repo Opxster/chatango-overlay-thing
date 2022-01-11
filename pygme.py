@@ -132,9 +132,7 @@ class bot(ch.RoomManager):
          if win32api.GetKeyState(0x1B) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
              global ESC
              ESC = True
-             pygame.display.quit()
-             pygame.quit()
-             bot.stop(self)
+             exit()
     def onDisconnect(self, room):
      print("bot disconnected")
      if ESC == False:
