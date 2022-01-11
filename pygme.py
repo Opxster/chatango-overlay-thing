@@ -14,9 +14,9 @@ class Message:
         self.nameColor = name_color
         self.msgColor = msg_color
 
-font_size = 50
-overlay_height = 600
-overlay_width = 800
+font_size = 30
+overlay_height = 400
+overlay_width = 700
 
 pygame.init()
 pygame.font.init()
@@ -132,9 +132,15 @@ class bot(ch.RoomManager):
          if win32api.GetKeyState(0x1B) < -1 and b[2] >= x >= b[0] and b[3] >= y >= b[1]:
              global ESC
              ESC = True
-             bot.stop(self)
+             pygame.display.quit()
              pygame.quit()
+             bot.stop(self)
     def onDisconnect(self, room):
+     print("bot disconnected")
+     if ESC == False:
+      bot.stop(self)
+      bot.easy_start(rooms, username, password)
+    def onPMDisconnect(self, pm):
      print("bot disconnected")
      if ESC == False:
       bot.stop(self)
