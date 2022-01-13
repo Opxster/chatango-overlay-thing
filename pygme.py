@@ -5,6 +5,7 @@ import win32gui
 import ch
 import time
 import html
+from configparser import ConfigParser
 from ctypes import windll
 
 class Message:
@@ -14,19 +15,60 @@ class Message:
         self.nameColor = name_color
         self.msgColor = msg_color
 
-font_size = 30
-overlay_height = 400
-overlay_width = 700
+
 
 pygame.init()
 pygame.font.init()
-myfont = pygame.font.SysFont('Arial Bold', font_size)
-pygame.display.set_caption('ghetto ass overlay')
 global chatcount
 global chatstore
 global ESC
 ESC = False
 
+config_object = ConfigParser()
+try:
+    config_object.read("config.ini")
+    parameters = config_object["Parameters"]
+    font_size = int(parameters["Font size"])
+    overlay_height = int(parameters["Overlay height"])
+    overlay_width = int(parameters["Overlay width"])
+    always_focused = bool(parameters["Always on top"])
+
+    chatangoDetails = config_object["Chatango bot"]
+    rooms = [chatangoDetails["Room"]]
+    username = chatangoDetails["Username"]
+    password = chatangoDetails["Password"]
+except:
+    print("config not found")
+    config_object = ConfigParser()
+    config_object["Parameters"] = {
+        "Font size": "30",
+        "Overlay height": "400",
+        "Overlay width": "700",
+        "Always on top": "True",
+        }
+    config_object["Chatango bot"] = {
+        "Username": "botstero",
+        "Password": "123qwe",
+        "Room": "vidyatendency",
+        }
+
+    with open('config.ini', 'w') as conf:
+        config_object.write(conf)
+
+    config_object.read("config.ini")
+    parameters = config_object["Parameters"]
+    font_size = int(parameters["Font size"])
+    overlay_height = int(parameters["Overlay height"])
+    overlay_width = int(parameters["Overlay width"])
+    always_focused = bool(parameters["Always on top"])
+
+    chatangoDetails = config_object["Chatango bot"]
+    rooms = [chatangoDetails["Room"]]
+    username = chatangoDetails["Username"]
+    password = chatangoDetails["Password"]
+
+myfont = pygame.font.SysFont('Arial Bold', font_size)
+pygame.display.set_caption('chatango overlay')
 chatstore = [
     Message("test", "1", (0, 255, 0), (0, 255, 0)),
     Message("tes", "2", (0, 255, 0), (0, 255, 0)),
@@ -37,11 +79,8 @@ chatcount = 0  # message counter
 shadow_color = (128, 128, 128)
 shadow_y_offset = 2
 shadow_x_offset = 1
-font_size = 50
 
 screen = pygame.display.set_mode((overlay_width, overlay_height),pygame.NOFRAME)  
-
-done = False
 fuchsia = (255, 0, 128)  # Transparency color
 dark_red = (139, 0, 0)
 screen.fill(fuchsia)  # Transparent background
@@ -139,7 +178,7 @@ class bot(ch.RoomManager):
       bot.stop(self)
       bot.easy_start(rooms, username, password)
     def onPMDisconnect(self, pm):
-     print("bot disconnected")
+     print("PMbot disconnected")
      if ESC == False:
       bot.stop(self)
       bot.easy_start(rooms, username, password)
@@ -160,11 +199,8 @@ class bot(ch.RoomManager):
         if colorR == 0 and colorG == 0 and colorB == 0:
             return 255, 255, 255
         return colorR, colorG, colorB
-
+    
 pygame.draw.rect(screen, (0,0,255), (0,0,overlay_width,overlay_height), 0)
 pygame.draw.rect(screen, fuchsia, (2,2,overlay_width-4,overlay_height-4), 0)
 
-rooms = ["vidyatendency"]
-username = "botstero"
-password = "123qwe"
 bot.easy_start(rooms, username, password)
