@@ -127,6 +127,14 @@ class bot(ch.RoomManager):
 
     # every bot tick update the GUI
     def _tick(self):
+         now = time.time()
+         for task in set(self._tasks):
+          if task.target <= now:
+            task.func(*task.args, **task.kw)
+            if task.isInterval:
+              task.target = now + task.timeout
+            else:
+              self._tasks.remove(task)
          pygame.event.get()
          x,y = win32gui.GetCursorPos()
          x2 = int(x-overlay_width/2)
@@ -139,6 +147,7 @@ class bot(ch.RoomManager):
              global ESC
              ESC = True
              exit()
+         
     def onDisconnect(self, room):
      print("bot disconnected")
      if ESC == False:
