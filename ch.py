@@ -164,13 +164,12 @@ def _parseNameColor(n):
   return n
 
 def _parseFont(f):
-  """Parses the contents of a f tag and returns color, face and size."""
-  #' xSZCOL="FONT"'
-  try: #TODO: remove quick hack
+  try: 
     sizecolor, fontface = f.split("=", 1)
     sizecolor = sizecolor.strip()
-    size = int(sizecolor[1:3])
-    col = sizecolor[3:6]
+    sizecolor=sizecolor[1:]
+    size = 11
+    col = sizecolor[-6:]
     if col == "": col = None
     face = f.split("\"", 2)[1]
     return col, face, size
